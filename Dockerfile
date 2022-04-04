@@ -150,6 +150,11 @@ RUN sudo apt-get install -y pkg-config zip g++ zlib1g-dev unzip \
     && sudo chmod 0755 /usr/local/bin/bazelisk \
     && sudo apt-get autoremove -y && sudo apt-get clean -y && sudo rm -rf /var/lib/apt/lists/*
 
+# +++++++++++++++++++++++++++++ PROTOBUF ++++++++++++++++++++++++++++++++++
+RUN curl -o /tmp/protoc-3.20.0-linux-x86_64.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.20.0/protoc-3.20.0-linux-x86_64.zip \
+    && unzip /tmp/protoc-3.20.0-linux-x86_64.zip -d /usr/local/protobuf \
+    && rm -f /tmp/protoc-3.20.0-linux-x86_64.zip
+
 # ++++++++++++++++++++++++++++ FINISH FINISH ++++++++++++++++++++++++++++
 RUN sudo rm -rf /tmp/library-scripts
 
@@ -166,7 +171,7 @@ ENV LANG=C.UTF-8 \
 
 # Port
 ENV PORT=8080
-ARG PATH_APPEND="$GOPATH/bin:/usr/local/go/bin:${NVM_DIR}/current/bin:${JAVA_HOME}/bin:/usr/local/bin:${PIPX_BIN_DIR}:${SDKMAN_DIR}/candidates/java/current/bin:${SDKMAN_DIR}/candidates/maven/current/bin:${SDKMAN_DIR}/candidates/gradle/current/bin"
+ARG PATH_APPEND="/usr/local/protobuf/bin:$GOPATH/bin:/usr/local/go/bin:${NVM_DIR}/current/bin:${JAVA_HOME}/bin:/usr/local/bin:${PIPX_BIN_DIR}:${SDKMAN_DIR}/candidates/java/current/bin:${SDKMAN_DIR}/candidates/maven/current/bin:${SDKMAN_DIR}/candidates/gradle/current/bin"
 RUN echo "PATH=$PATH_APPEND":'$PATH' >> /home/$USERNAME/.profile
 # Use our custom entrypoint script first
 COPY deploy-container/entrypoint.sh /usr/bin/deploy-container-entrypoint.sh
