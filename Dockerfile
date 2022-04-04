@@ -151,13 +151,12 @@ RUN sudo apt-get install -y pkg-config zip g++ zlib1g-dev unzip \
     && sudo apt-get autoremove -y && sudo apt-get clean -y && sudo rm -rf /var/lib/apt/lists/*
 
 # +++++++++++++++++++++++++++++ PROTOBUF ++++++++++++++++++++++++++++++++++
-RUN curl -o /tmp/protoc-3.20.0-linux-x86_64.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.20.0/protoc-3.20.0-linux-x86_64.zip \
-    && unzip /tmp/protoc-3.20.0-linux-x86_64.zip -d /usr/local/protobuf \
-    && rm -f /tmp/protoc-3.20.0-linux-x86_64.zip
+RUN sudo wget -O /tmp/protoc-3.20.0-linux-x86_64.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.20.0/protoc-3.20.0-linux-x86_64.zip \
+    && sudo unzip /tmp/protoc-3.20.0-linux-x86_64.zip -d /usr/local/protobuf \
+    && sudo rm -f /tmp/protoc-3.20.0-linux-x86_64.zip
 
 # ++++++++++++++++++++++++++++ FINISH FINISH ++++++++++++++++++++++++++++
 RUN sudo rm -rf /tmp/library-scripts
-
 ENV DEBIAN_FRONTEND=dialog
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
